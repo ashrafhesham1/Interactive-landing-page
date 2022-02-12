@@ -1,20 +1,26 @@
-
+//declaring global variables
 const sections = document.querySelectorAll("section");
 const navbarContent= document.createElement('ul');
+let pageHeader = document.querySelector('.page_header');
+let activeSection=document.querySelector('#section1')
+let scrollTimer=null
+
 
 // detecting active class
 let activeSectinObserver = new IntersectionObserver((entries) =>{
     for (let entry of entries){
-        let entryClasses = entry.target.classList;
+        const entryClasses = entry.target.classList;
+        const entryNavlinkClasses = navbarContent.querySelector(`#${entry.target.id}-link`).classList;
         if (entry.isIntersecting){
-            entryClasses.add('active');
+            entryClasses.add('active-section');
+            entryNavlinkClasses.add('active-nav-link');
         }
         else{
-            entryClasses.remove('active');
+            entryClasses.remove('active-section');
+            entryNavlinkClasses.remove('active-nav-link');
         }
     }
-},{threshold:.6});
-
+},{threshold:.8});
 
 //Loading the navbar content 
 for (let section of sections){
@@ -22,7 +28,8 @@ for (let section of sections){
     let listItem=document.createElement('li');
     let listLink=document.createElement('a');
     listLink.textContent=section.getAttribute('data-nav');
-    listLink.setAttribute('href',`#${section.getAttribute('id')}`);
+    listLink.setAttribute('href',`#${section.id}`);
+    listLink.id=`${section.id}-link`
     listItem.appendChild(listLink);
     navbarContent.appendChild(listItem);
 
@@ -43,10 +50,8 @@ navbarContent.addEventListener('click', (event)=>{
 
 
 //making the header invisible unless the user is scrolling
-let scrollTimer=null
 document.addEventListener('scroll',() => {
-    const header = document.querySelector('.page_header');
-    header.style.visibility='visible';
+    pageHeader.style.visibility='visible';
     if (scrollTimer!=null){
         clearTimeout(scrollTimer);
     }
@@ -54,10 +59,10 @@ document.addEventListener('scroll',() => {
         let srollPos = document.querySelector('html').scrollTop ;
         //keeping the header visible if the user at the top of the page
         if (srollPos> 0){ 
-            header.style.visibility='hidden';
+            pageHeader.style.visibility='hidden';
         }
     },1000);
-})
+});
 
 //scroll to tob button
 //button functionality

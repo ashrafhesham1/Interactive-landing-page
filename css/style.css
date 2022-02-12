@@ -34,6 +34,7 @@ main{
 
 section{
     margin: 3em auto;
+    min-height: 70vh;
 }
 
 /*----Header----*/
@@ -128,13 +129,17 @@ section:nth-of-type(even) .section_container {
     background-color:#aed6dd;
 }
 
+/*----Active Style----*/
 /*----Active Section style----*/
-.active{
+.active-section{
     background: rgb(0, 0, 0);
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
     border-top: 1px solid #ffffff;
     border-bottom: 1px solid #ffffff;
-
+}
+/*----Active navbar item style----*/
+.active-nav-link{
+    background-color: #4297A0;
 }
 
 
