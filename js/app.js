@@ -32,9 +32,12 @@ for (let section of sections){
     listLink.id=`${section.id}-link`
     listItem.appendChild(listLink);
     navbarContent.appendChild(listItem);
+    navbarContent.classList.add('collapsed_navbar');
 
     //aplying the observer to each section
     activeSectinObserver.observe(section);
+
+
 
 }
 
@@ -46,22 +49,33 @@ navbarContent.addEventListener('click', (event)=>{
     event.preventDefault();
     let section = document.querySelector(event.target.getAttribute('href'))
     section.scrollIntoView({behavior:'smooth',block:'start'});
+
+    //hiding the navbar on small screen after choosing section
+    navbarContent.classList.add('collapsed_navbar');
+
 })
 
 
-//making the header invisible unless the user is scrolling
+//making the header invisible unless the user is scrolling on screens larger than 768px
 document.addEventListener('scroll',() => {
-    pageHeader.style.visibility='visible';
-    if (scrollTimer!=null){
-        clearTimeout(scrollTimer);
-    }
-    scrollTimer=setTimeout(()=>{
-        let srollPos = document.querySelector('html').scrollTop ;
-        //keeping the header visible if the user at the top of the page
-        if (srollPos> 0){ 
-            pageHeader.style.visibility='hidden';
+    var mediaSize = window.matchMedia("(min-width: 768px)")
+    if (mediaSize.matches){
+        pageHeader.style.visibility='visible';
+        if (scrollTimer!=null){
+            clearTimeout(scrollTimer);
         }
-    },1000);
+        scrollTimer=setTimeout(()=>{
+            let srollPos = document.querySelector('html').scrollTop ;
+            
+            //keeping the header visible if the user at the top of the page
+            if (srollPos> 0){ 
+                pageHeader.style.visibility='hidden';
+            }
+        },1000);
+    }
+    else{
+        pageHeader.style.visibility='visible';
+    }
 });
 
 //scroll to tob button
@@ -86,3 +100,9 @@ document.addEventListener('scroll',()=>{
         scrollTobBtn.style.visibility="hidden";
     }
 })
+
+//show&hide the navbar on small screen after clicking hamburger icon
+document.querySelector('.hamburger').addEventListener('click',()=>{
+    navbarContent.classList.toggle('collapsed_navbar');
+})
+
